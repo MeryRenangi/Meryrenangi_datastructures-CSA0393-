@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+void insertNode(struct Node** head_ref, int new_data, int position) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    new_node->data = new_data;
+    if (position == 1) {
+        new_node->next = *head_ref;
+        *head_ref = new_node;
+        return;
+    }
+    struct Node* temp = *head_ref;
+    for (int i = 1; i < position - 1 && temp != NULL; i++) {
+        temp = temp->next;
+    }
+    if (temp == NULL) {
+        printf("Position out of range\n");
+        return;
+    }
+    new_node->next = temp->next;
+    temp->next = new_node;
+}
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d->", node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+int main() {
+    struct Node* head = NULL;
+    insertNode(&head, 55, 1);
+    insertNode(&head, 77, 2);
+    insertNode(&head, 88, 3);
+    insertNode(&head, 99, 4);
+    insertNode(&head, 22, 5);
+    printf("Input: ");
+    printList(head);
+    insertNode(&head, 101, 4);
+    printf("Output: ");
+    printList(head);
+    return 0;
+}
