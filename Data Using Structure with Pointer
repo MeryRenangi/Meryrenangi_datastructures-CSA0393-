@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Member {
+    int rollno;
+    char name[50];
+};
+int main() {
+    struct Member *ptr;
+    ptr = (struct Member *)malloc(sizeof(struct Member));
+    printf("Enter Roll Number: ");
+    scanf("%d", &ptr->rollno);
+    printf("Enter Name: ");
+    scanf("%s", ptr->name);
+    printf("\nMember Data Entered:\n");
+    printf("Roll Number: %d\n", ptr->rollno);
+    printf("Name: %s\n", ptr->name);
+    free(ptr);
+    return 0;
+}
