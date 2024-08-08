@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Queue {
+    struct Node* stack1;
+    struct Node* stack2;
+};
+void enqueue(struct Queue* q, int x);
+int dequeue(struct Queue* q);
+void display(struct Queue* q);
+int main() {
+    struct Queue q = {NULL, NULL};
+    enqueue(&q, 1);
+    enqueue(&q, 2);
+    enqueue(&q, 3);
+    display(&q);
+    dequeue(&q);
+    display(&q);
+    return 0;
+}
+void push(struct Node** top_ref, int new_data);
+int pop(struct Node** top_ref);
+void enqueue(struct Queue* q, int x) {
+    push(&q->stack1, x);
+}
+int dequeue(struct Queue* q) {
+    int x;
+    if (q->stack1 == NULL && q->stack2 == NULL) {
+        printf("Queue is empty");
+        exit(0);
+    }
+    if (q->stack2 == NULL) {
+        while (q->stack1 != NULL) {
+            x = pop(&q->stack1);
+            push(&q->stack2, x);
+        }
+    }
+    x = pop(&q->stack2);
+    return x;
+}
+void display(struct Queue* q) {
+    struct Node* temp = q->stack1;
+
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+void push(struct Node** top_ref, int new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    if (new_node == NULL) {
+        printf("Stack Overflow");
+        exit(0);
+    }
+    new_node->data = new_data;
+    new_node->next = (*top_ref);
+    (*top_ref) = new_node;
+}
+int pop(struct Node** top_ref) {
+    int res;
+    struct Node* top;
+    if (*top_ref == NULL) {
+        printf("Stack Underflow");
+        exit(0);
+    } else {
+        top = *top_ref;
+        res = top->data;
+        *top_ref = top->next;
+        free(top);
+        return res;
+    }
+}
